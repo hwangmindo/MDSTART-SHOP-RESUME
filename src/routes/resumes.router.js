@@ -144,9 +144,9 @@ router.patch('/resumes/:resumeId', authMiddleware, async (req, res, next) => {
     // 요청된 이력서가 존재하고 사용자가 소유한 이력서인지 확인
     const resume = await prisma.resumes.findUnique({
       where: {
-		resumeId: +resumeId,
-		UserId: userId
-	  }
+        resumeId: +resumeId,
+        UserId: userId,
+      },
     });
 
     // 이력서가 존재하지 않으면 에러 처리
@@ -157,9 +157,9 @@ router.patch('/resumes/:resumeId', authMiddleware, async (req, res, next) => {
     // 이력서 업데이트
     const updatedResume = await prisma.resumes.update({
       where: {
-          resumeId: +resumeId,
-          UserId: userId,
-        },
+        resumeId: +resumeId,
+        UserId: userId,
+      },
       data: {
         title: title || undefined, // 제목이 제공되면 업데이트
         introduce: introduce || undefined, // 자기소개가 제공되면 업데이트
@@ -183,35 +183,34 @@ router.patch('/resumes/:resumeId', authMiddleware, async (req, res, next) => {
 
 // 이력서 삭제 API
 router.delete('/resumes/:resumeId', authMiddleware, async (req, res, next) => {
-	try {
-	  const { userId } = req.user;
-	  const { resumeId } = req.params;
+  try {
+    const { userId } = req.user;
+    const { resumeId } = req.params;
 
-	  // 요청된 이력서가 존재하고 사용자가 소유한 이력서인지 확인
-	  const resume = await prisma.resumes.findUnique({
-		where: {
-		  resumeId: +resumeId,
-		  UserId: userId
-		}
-	  });
-  
-	  // 이력서가 존재하지 않으면 에러 처리
-	  if (!resume) {
-		throw new Error('undefind Resume');
-	  }
+    // 요청된 이력서가 존재하고 사용자가 소유한 이력서인지 확인
+    const resume = await prisma.resumes.findUnique({
+      where: {
+        resumeId: +resumeId,
+        UserId: userId,
+      },
+    });
 
-	  // 데이터 삭제
-	  await prisma.resumes.delete({
-		where: {
-		  resumeId: +resumeId
-		}
-	  });
-  
-	  res.status(200).json({ deletedResumeId: +resumeId });
-	} catch (error) {
-	  next(error);
-	}
-  });
+    // 이력서가 존재하지 않으면 에러 처리
+    if (!resume) {
+      throw new Error('undefind Resume');
+    }
 
+    // 데이터 삭제
+    await prisma.resumes.delete({
+      where: {
+        resumeId: +resumeId,
+      },
+    });
+
+    res.status(200).json({ deletedResumeId: +resumeId });
+  } catch (error) {
+    next(error);
+  }
+});
 
 export default router;

@@ -6,7 +6,7 @@ const logger = winston.createLogger({
   format: winston.format.json(), // 로그 포맷을 JSON 형식으로 설정합니다.
   transports: [
     new winston.transports.Console(), // 로그를 콘솔에 출력합니다.
-  ]
+  ],
 });
 
 // 미들웨어가 실행되는 부분
