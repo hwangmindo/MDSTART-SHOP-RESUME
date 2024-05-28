@@ -89,7 +89,7 @@ router.post('/sign-in', async (req, res, next) => {
 			process.env.ACCESS_TOKEN_SECRET_KEY, 
 			{ expiresIn: '12h' }
 		);
-		res.cookie('accessToken', accessToken);
+		res.cookie('authorization', `Bearer ${accessToken}`);
 		return res.status(200).json({ message: "Token이 정상적으로 발급되었습니다."});
 	} catch(error) {
 		next(error);
