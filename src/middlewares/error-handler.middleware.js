@@ -27,7 +27,19 @@ export default (err, req, res, next) => {
 	if (err.message === 'can not') {
 		return res.status(401).json({ errorMessage: '인증 정보가 유효하지 않습니다.' });
   	}
-
+	if (err.message === 'not asc or desc') {
+		return res.status(400).json({ errorMessage: 'query에 입력한 값이 asc/desc 가 아닙니다.' });
+	}
+	if (err.message === 'undefind resumeId') {
+		return res.status(400).json({ errorMessage: 'resumeId를 입력해주세요.' });
+	}
+	if (err.message === 'undefind Resume') {
+		return res.status(401).json({ errorMessage: '이력서가 존재하지 않습니다.' });
+	}
+	if (err.message === 'some inner') {
+		return res.status(400).json({ errorMessage: '수정 할 정보를 입력해 주세요' });
+	}
+	
   
 	return res.status(500).json({
 	  errorMessage: '예상치 못한 에러가 발생했습니다. 관리자에게 문의해 주세요.',
