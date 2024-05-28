@@ -57,5 +57,4 @@ res.cookie("authorization", `Bearer ${token}`)
 
 # 관계
 
-1. 1:1 Users / UsersInfos
-2. 1:N Users / resumes
+1. 1:N Users / resumes

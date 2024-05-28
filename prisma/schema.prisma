@@ -13,4 +13,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Users 
+model Users {
+  userId Int @id @default(autoincrement()) @map("userId")
+  email String @unique @map("email")
+  password String @map("password")
+  name String @map("name")
+  part String @map("part")
+
+  createdAt DateTime @default(now()) @map("createdAt")
+  updatedAt DateTime @updatedAt @map("updatedAt")
+
+  Resumes Resumes[]
+
+  @@map("Users")
+}
+
+model Resumes {
+  resumeId Int @id @default(autoincrement()) @map("resumeId")
+  UserId Int @map("UserId")
+
+  title String @map("title")
+  introduce String @db.Text @map("introduce")
+  state String @map("state")
+
+  createdAt DateTime @default(now()) @map("createdAt")
+  updatedAt DateTime @updatedAt @map("updatedAt")
+
+  User Users @relation(fields: [UserId], references: [userId], onDelete: Cascade)
+
+  @@map("Resumes")
+}
